@@ -2,7 +2,7 @@ const express = require('express');
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
 
-const oneDay = 1000 * 60 * 60 * 24;
+const oneHour = 1000 * 60 * 60;
 const app = express();
 
 // Middleware
@@ -14,7 +14,7 @@ app.use(cookieParser());
 app.use(sessions({
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
     saveUninitialized:true,
-    cookie: { maxAge: oneDay },
+    cookie: { maxAge: oneHour },
     resave: false
 }));
 
@@ -30,13 +30,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/ran', (req, res) => {
-
-
   if (req.session.data) {
-    res.send(req.session.data);
+    res.send(req.session.room_id);
   } else {
-    req.session.data = utils(5);
-    res.send(req.session.data);
+    req.session.room_id = utils(5);
+    res.send(req.session.room_id);
   }
   // res.send(req.session.num);
 });
